@@ -9,7 +9,6 @@ let defaultRoute = async (req, res) => {
 
 //^ POST CONTACT API = TO POST THE CONTACT INFO
 let contactApi = async (req, res, next) => {
-  console.log("post api for contact form");
   try {
     const { name, email, message } = req.body;
     if (!name || !email || !message) {
@@ -22,31 +21,36 @@ let contactApi = async (req, res, next) => {
       email,
       message,
     });
-
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
+        user: "nidhi15sak@gmail.com",
+        pass: "ngaejxlsadnhqbac",
       },
+      debug: true,
     });
-    transporter.verify((error, success) => {
-      if (error) {
-        console.error("Error connecting to Gmail:", error.message);
-      } else {
-        console.log("Gmail SMTP connection is successful!");
-      }
-    });
-    let contactMail = async (email) => {
-      let sentInfo = await transporter.sendMail({
+    let contactMail = async () => {
+      await transporter.sendMail({
         from: email,
-        to: process.env.EMAIL,
+        to: "nidhi15sak@gmail.com",
         subject: "New Contact Form Submission",
-        text: `You have a new contact form submission:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
+        html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <h2 style="color: #007BFF;">New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+          <p><strong>Message:</strong></p>
+          <blockquote style="border-left: 4px solid #007BFF; padding-left: 10px; color: #555;">
+            ${message}
+          </blockquote>
+          <p style="margin-top: 20px; color: #777;">
+            This is an automated message. Please do not reply to this email.
+          </p>
+        </div>
+      `,
       });
-      console.log(sentInfo);
     };
-    await contactMail(email);
+    contactMail(email);
     res.status(201).json({
       error: false,
       message: "I have received your mail,I'll back to you soon",
