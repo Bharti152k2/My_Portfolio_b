@@ -10,8 +10,8 @@ let startServer = async () => {
   try {
     await connectdb();
     console.log("MongoDB connected successfully");
-    app.listen(2000, () => {
-      console.log(`Server is running on port 2000`);
+    app.listen(5001, () => {
+      console.log(`Server is running on port 5001`);
     });
   } catch (error) {
     console.log(error);
