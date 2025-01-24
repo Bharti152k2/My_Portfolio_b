@@ -5,6 +5,6 @@ const {
 } = require("../controller/contact.controller");
 
 let router = express.Router();
-router.get("/default", defaultRoute);
+router.get("/", defaultRoute);
 router.post("/contact", contactApi);
 module.exports = router;
