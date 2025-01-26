@@ -4,7 +4,13 @@ const routes = require("./routes/contact.route");
 const connectdb = require("./database/connectDB");
 let app = express();
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: "https://my-portfolio-f-five.vercel.app", 
+    methods: "GET, POST", 
+  })
+);
 app.use("/api", routes);
 
 let startServer = async () => {
