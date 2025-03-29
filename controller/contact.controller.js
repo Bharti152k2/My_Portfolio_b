@@ -64,24 +64,22 @@ let contactApi = async (req, res, next) => {
       service: "gmail",
       host: "smtp.gmail.com",
       port: 587,
-      secure: false,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false
+        pass: process.env.EMAIL_PASS
       }
     });
 
-    // Verify email connection
+    // Add more detailed error logging
     try {
       await transporter.verify();
     } catch (emailError) {
-      // console.error("Email Configuration Error:", emailError);
+      console.error("Email Configuration Error Details:", emailError);
       return res.status(500).json({
         error: true,
-        message: "Email service configuration error"
+        message: "Email service configuration error",
+        details: emailError.message
       });
     }
 
