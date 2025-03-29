@@ -9,7 +9,11 @@ let router = express.Router();
 
 // CORS configuration
 const corsOptions = {
-  origin: ["https://my-portfolio-f-five.vercel.app", "http://localhost:3000"],
+  origin: [
+    "https://my-portfolio-f-five.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:5173",
+  ],
   methods: ["GET", "POST"],
   credentials: true,
 };

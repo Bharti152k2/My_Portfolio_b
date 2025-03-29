@@ -10,15 +10,19 @@ let defaultRoute = async (req, res) => {
 //^ POST CONTACT API = TO POST THE CONTACT INFO
 let contactApi = async (req, res, next) => {
   try {
-    console.log("Received request body:", req.body);
+    console.log("Headers:", req.headers);
+    console.log("Raw Body:", req.body);
+    console.log("Content Type:", req.headers['content-type']);
 
     const { name, email, message } = req.body;
     
     // More detailed validation
-    if (!req.body) {
+    if (!req.body || Object.keys(req.body).length === 0) {
       return res.status(400).json({ 
         error: true, 
-        message: "Request body is missing" 
+        message: "Request body is missing or empty",
+        receivedHeaders: req.headers,
+        receivedBody: req.body
       });
     }
 
