@@ -2,9 +2,15 @@ const express = require("express");
 const cors = require("cors");
 const routes = require("./routes/contact.route");
 const connectdb = require("./database/connectDB");
-let app = express();
+const app = express();
+
+// Enable CORS for all routes
+app.use(cors({
+  origin: ["https://my-portfolio-f-five.vercel.app", "http://localhost:3000"],
+  methods: ["GET", "POST"],
+  credentials: true,
+}));
 app.use(express.json());
-// app.use(cors());
 app.use(
   cors({
     origin: "https://my-portfolio-f-five.vercel.app", 
