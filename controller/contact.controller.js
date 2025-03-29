@@ -10,12 +10,35 @@ let defaultRoute = async (req, res) => {
 //^ POST CONTACT API = TO POST THE CONTACT INFO
 let contactApi = async (req, res, next) => {
   try {
+    console.log("Received request body:", req.body); // Add request logging
+
     const { name, email, message } = req.body;
-    if (!name || !email || !message) {
-      return res
-        .status(400)
-        .json({ error: true, message: "All fields are required" });
+    
+    // More detailed validation
+    if (!req.body) {
+      return res.status(400).json({ 
+        error: true, 
+        message: "Request body is missing" 
+      });
     }
+
+    if (!name || !email || !message) {
+      return res.status(400).json({ 
+        error: true, 
+        message: "All fields are required",
+        received: { name, email, message } // Show what was received
+      });
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        error: true,
+        message: "Invalid email format"
+      });
+    }
+
     let contactEntry = await contactData.create({
       name,
       email,
