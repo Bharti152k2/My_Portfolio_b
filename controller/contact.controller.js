@@ -29,12 +29,13 @@ let contactApi = async (req, res, next) => {
       },
       debug: true,
     });
-    let contactMail = async () => {
-      await transporter.sendMail({
-        from: email,
-        to: "nidhi15sak@gmail.com",
-        subject: "New Contact Form Submission",
-        html: `
+
+    // Send email to admin
+    await transporter.sendMail({
+      from: email,
+      to: "nidhi15sak@gmail.com",
+      subject: "New Contact Form Submission",
+      html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
           <h2 style="color: #007BFF;">New Contact Form Submission</h2>
           <p><strong>Name:</strong> ${name}</p>
@@ -43,17 +44,28 @@ let contactApi = async (req, res, next) => {
           <blockquote style="border-left: 4px solid #007BFF; padding-left: 10px; color: #555;">
             ${message}
           </blockquote>
-          <p style="margin-top: 20px; color: #777;">
-            This is an automated message. Please do not reply to this email.
-          </p>
         </div>
       `,
-      });
-    };
-    contactMail(email);
+    });
+
+    // Send auto-reply to user
+    await transporter.sendMail({
+      from: "nidhi15sak@gmail.com",
+      to: email,
+      subject: "Thank you for contacting me",
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <h2 style="color: #007BFF;">Thank you for reaching out!</h2>
+          <p>Dear ${name},</p>
+          <p>I have received your message and will get back to you as soon as possible.</p>
+          <p>Best regards,<br/>Nidhi</p>
+        </div>
+      `,
+    });
+
     res.status(201).json({
       error: false,
-      message: "I have received your mail,I'll back to you soon",
+      message: "I have received your mail, I'll get back to you soon",
       data: contactEntry,
     });
   } catch (error) {
