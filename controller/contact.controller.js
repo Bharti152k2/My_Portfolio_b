@@ -10,9 +10,9 @@ let defaultRoute = async (req, res) => {
 //^ POST CONTACT API = TO POST THE CONTACT INFO
 let contactApi = async (req, res, next) => {
   try {
-    console.log("Headers:", req.headers);
-    console.log("Raw Body:", req.body);
-    console.log("Content Type:", req.headers['content-type']);
+    // console.log("Headers:", req.headers);
+    // console.log("Raw Body:", req.body);
+    // console.log("Content Type:", req.headers['content-type']);
 
     const { name, email, message } = req.body;
     
@@ -52,7 +52,7 @@ let contactApi = async (req, res, next) => {
         message,
       });
     } catch (dbError) {
-      console.error("Database Error:", dbError);
+      // console.error("Database Error:", dbError);
       return res.status(500).json({
         error: true,
         message: "Failed to save contact information"
@@ -78,7 +78,7 @@ let contactApi = async (req, res, next) => {
     try {
       await transporter.verify();
     } catch (emailError) {
-      console.error("Email Configuration Error:", emailError);
+      // console.error("Email Configuration Error:", emailError);
       return res.status(500).json({
         error: true,
         message: "Email service configuration error"
@@ -120,7 +120,7 @@ let contactApi = async (req, res, next) => {
         `,
       });
     } catch (emailSendError) {
-      console.error("Email Sending Error:", emailSendError);
+      // console.error("Email Sending Error:", emailSendError);
       return res.status(500).json({
         error: true,
         message: "Failed to send emails",
@@ -134,7 +134,7 @@ let contactApi = async (req, res, next) => {
       data: contactEntry,
     });
   } catch (error) {
-    console.error("Contact API Error:", error);
+    // console.error("Contact API Error:", error);
     res.status(500).json({
       error: true,
       message: "Failed to process contact form",

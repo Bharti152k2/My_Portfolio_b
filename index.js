@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5001;
 let startServer = async () => {
   try {
     await connectdb();
-    console.log("MongoDB connected successfully");
+    // console.log("MongoDB connected successfully");
     if (process.env.NODE_ENV !== "production") {
       app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
@@ -29,7 +29,6 @@ let startServer = async () => {
     }
   } catch (error) {
     console.log("Server Error:", error);
-    // Add proper error handling
     throw error;
   }
 };
