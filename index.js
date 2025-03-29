@@ -16,7 +16,7 @@ app.use(express.json());
 app.use("/api", routes);
 
 // Modified server startup for Vercel compatibility
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT;
 
 let startServer = async () => {
   try {
