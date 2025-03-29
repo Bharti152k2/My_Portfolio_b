@@ -4,31 +4,34 @@ const routes = require("./routes/contact.route");
 const connectdb = require("./database/connectDB");
 const app = express();
 
-// Enable CORS for all routes
+// Single CORS configuration
 app.use(cors({
   origin: ["https://my-portfolio-f-five.vercel.app", "http://localhost:3000"],
   methods: ["GET", "POST"],
   credentials: true,
 }));
+
 app.use(express.json());
-app.use(
-  cors({
-    origin: "https://my-portfolio-f-five.vercel.app", 
-    methods: "GET, POST", 
-  })
-);
 app.use("/api", routes);
+
+// Modified server startup for Vercel compatibility
+const PORT = process.env.PORT || 5001;
 
 let startServer = async () => {
   try {
     await connectdb();
     console.log("MongoDB connected successfully");
-    app.listen(5001, () => {
-      console.log(`Server is running on port 5001`);
-    });
+    if (process.env.NODE_ENV !== 'production') {
+      app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+      });
+    }
   } catch (error) {
-    console.log(error);
+    console.log("Server Error:", error);
+    // Add proper error handling
+    throw error;
   }
 };
+
 startServer();
 module.exports = app;

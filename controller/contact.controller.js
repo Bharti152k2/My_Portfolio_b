@@ -69,7 +69,12 @@ let contactApi = async (req, res, next) => {
       data: contactEntry,
     });
   } catch (error) {
-    next(error);
+    console.error("Contact API Error:", error); // Add detailed error logging
+    res.status(500).json({
+      error: true,
+      message: "Failed to process contact form",
+      details: error.message
+    });
   }
 };
 
